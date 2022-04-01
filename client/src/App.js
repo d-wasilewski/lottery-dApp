@@ -1,24 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext, useEffect, useState } from "react";
+import "./App.css";
+import { Button } from "./components/Button";
+import Navbar from "./components/Navbar";
+import PlayersList from "./components/PlayersList";
+import { LotteryContext } from "./context/LotteryContext";
 
 function App() {
+  const {
+    connectWallet,
+    connectedAccount,
+    enterLottery,
+    potBalance,
+    pickWinner,
+    updateState,
+  } = useContext(LotteryContext);
+
+  const textToDisplay = connectedAccount ? connectedAccount : "CONNECT WALLET";
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+      <div className="App">
+        <div className="left-side">
+          <h1 style={{ color: "white", fontSize: "80px" }}>Ethereum Lottery</h1>
+          <div
+            style={{
+              color: "white",
+              fontSize: "40px",
+              padding: "0 150px",
+              color: "rgb(225,255,255)",
+              marginBottom: "30px",
+            }}
+          >
+            Join the best lottery in the world and stand a chance to win some
+            ethereum for just 0.1 ETH!
+          </div>
+          <div style={{ color: "white", fontSize: "100px" }}>
+            Pot: {potBalance} ETH
+          </div>
+          {/* <button onClick={enterLottery}>PLAY NOW</button> */}
+          <div style={{ marginTop: "5em" }}>
+            <Button text={"Enter lottery"} onClick={pickWinner} size={"big"} />
+          </div>
+        </div>
+        <div className="right-side">
+          <PlayersList />
+          <PlayersList />
+        </div>
+      </div>
+    </>
   );
 }
 
