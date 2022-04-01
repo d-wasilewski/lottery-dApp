@@ -1,4 +1,8 @@
 .address {
   font-size: 16px;
+}
+
+.address > a {
+  text-decoration: none;
   color: white;
 }

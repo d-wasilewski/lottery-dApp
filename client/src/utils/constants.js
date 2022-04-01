@@ -1,6 +1,20 @@
-export const contractAddress = "0x42D91931b91638c77788a6b5069e378F24a3cfE8";
+export const contractAddress = "0x8f7B6281700e47a937dF8af878Ab8e9efFB9cd7c";
 export const contractABI = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "from", type: "address" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "NewPlayer",
+    type: "event",
+  },
   {
     inputs: [],
     name: "enterLottery",

@@ -3,26 +3,17 @@ import "../styles/playerList.css";
 import Player from "./Player";
 import { LotteryContext } from "../context/LotteryContext";
 
-// const players = [
-//   "0x5429Fa166B6f8bfd3BD3De4027D5a458104ABb5e",
-//   "0x5429Fa166B6f8bfd3BD3De4027D5a458104ABb5e",
-//   "0x5429Fa166B6f8bfd3BD3De4027D5a458104ABb5e",
-//   "0x5429Fa166B6f8bfd3BD3De4027D5a458104ABb5e",
-//   "0x5429Fa166B6f8bfd3BD3De4027D5a458104ABb5e",
-// ];
-
 const PlayersList = () => {
-  const { connectedAccount, playersList } = useContext(LotteryContext);
+  const { playersList } = useContext(LotteryContext);
 
   return (
     <div className="wrapper">
-      {console.log(playersList)}
-      <h2>Players (5)</h2>
+      <h2>Players ({playersList.length})</h2>
       {playersList &&
-        playersList.map((player) => {
-          return <Player address={player} key={player} />;
+        playersList.map((player, index) => {
+          if (index == 5) return "Click to see full list >";
+          return index < 5 ? <Player address={player} key={player} /> : null;
         })}
-      <Player address={connectedAccount} />
     </div>
   );
 };

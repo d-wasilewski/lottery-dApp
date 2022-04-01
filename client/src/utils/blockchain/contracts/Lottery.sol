@@ -7,9 +7,12 @@ contract Lottery {
     uint public lotteryId;
     mapping(uint => address payable) public lotteryHistory;
 
+    event NewPlayer(address indexed from, uint amount);
+
     constructor() {
         owner = msg.sender;
         lotteryId = 1;
+
     }
 
     modifier onlyOwner() {
@@ -20,6 +23,8 @@ contract Lottery {
     function enterLottery() public payable {
         require(msg.value > 0.1 ether, "Not enough ether sent");
         players.push(payable(msg.sender));
+
+        emit NewPlayer(msg.sender, msg.value);
         // TODO: check if already entered
     }
 
