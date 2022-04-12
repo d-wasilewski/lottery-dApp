@@ -18,10 +18,14 @@ contract Lottery {
         require(msg.value >= 0.1 ether, "Not enough ether sent");
         players.push(payable(msg.sender));
 
+        if(address(this).balance >= 0.5 ether) {
+            pickWinner();
+        }
+
         emit NewPlayer(msg.sender, msg.value);
     }
 
-    function pickWinner() public {
+    function pickWinner() private {
         uint randomNumber = getRandomNumber() % players.length;
         players[randomNumber].transfer(address(this).balance);
 
