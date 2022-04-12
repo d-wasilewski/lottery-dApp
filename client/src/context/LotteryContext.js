@@ -24,13 +24,7 @@ export const LotteryProvider = ({ children }) => {
   const [connectedAccount, setConnectedAccount] = useState("");
   const [potBalance, setPotBalance] = useState(0);
   const [playersList, setPlayersList] = useState([]);
-
-  console.log(contract);
-
-  const updateState = () => {
-    getPotBalance();
-    getPlayersList();
-  };
+  const [lotteryHistory, setLotteryHistory] = useState([]);
 
   const checkIfWalletIsConnected = async () => {
     if (!ethereum) return alert("Please install metamask!");
@@ -73,40 +67,51 @@ export const LotteryProvider = ({ children }) => {
     }
   };
 
+  const getLotteryId = async () => {
+    const lotteryId = await contract.lotteryId();
+    return lotteryId.toNumber();
+  };
+
+  const getHistory = async (id) => {
+    const historyList = [];
+
+    for (let i = id - 1; i > 0; i--) {
+      const winnerAddress = await contract.getWinnerByLotteryId(i);
+      const historyObj = {};
+      historyObj.id = i;
+      historyObj.address = winnerAddress;
+      historyList.push(winnerAddress);
+    }
+
+    setLotteryHistory(historyList);
+  };
+
   const getPlayersList = async () => {
-    const players = await contract.getPlayerList({ gasLimit: 300000 });
+    const players = await contract.getPlayerList();
     setPlayersList(players);
   };
 
   const getPotBalance = async () => {
     if (contract) {
-      const pot = await contract.getBalance({ gasLimit: 300000 });
+      const pot = await contract.getBalance();
       setPotBalance(ethers.utils.formatEther(pot));
     }
   };
 
-  const pickWinner = async () => {
-    try {
-      console.log("Picking winner");
-      await contract.pickWinner({ gasLimit: 300000 });
-    } catch (error) {
-      console.log(error);
-    }
+  const updateState = async () => {
+    await getPotBalance();
+    await getPlayersList();
+    const lotteryId = await getLotteryId();
+    await getHistory(lotteryId);
   };
 
   useEffect(() => {
     checkIfWalletIsConnected();
-    // if (contract) {
-    //   updateState();
-    // }
   }, []);
 
-  useEffect(async () => {
-    const onNewEntry = async (playerAddress, amount) => {
-      setPlayersList((prevState) => [...prevState, playerAddress]);
-      // change getBalance to amount
-      const updatedPot = await contract.getBalance();
-      setPotBalance(ethers.utils.formatEther(updatedPot));
+  useEffect(() => {
+    const onNewEntry = async () => {
+      updateState();
     };
 
     if (contract) {
@@ -128,8 +133,8 @@ export const LotteryProvider = ({ children }) => {
         enterLottery,
         playersList,
         potBalance,
-        pickWinner,
         updateState,
+        lotteryHistory,
       }}
     >
       {children}

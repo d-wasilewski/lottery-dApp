@@ -1,20 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import "./App.css";
-import { Button } from "./components/Button";
+
 import MainContent from "./components/MainContent";
 import Navbar from "./components/Navbar";
-import PlayersList from "./components/PlayersList";
+import Card from "./components/Card";
 import { LotteryContext } from "./context/LotteryContext";
 
 function App() {
-  const {
-    connectWallet,
-    connectedAccount,
-    enterLottery,
-    potBalance,
-    pickWinner,
-    updateState,
-  } = useContext(LotteryContext);
+  const { lotteryHistory, playersList } = useContext(LotteryContext);
 
   return (
     <>
@@ -24,8 +17,8 @@ function App() {
           <MainContent />
         </div>
         <div className="right-side">
-          <PlayersList />
-          {/* <PlayersList /> */}
+          <Card list={playersList} title={"Players"} />
+          <Card list={lotteryHistory} title={"Winners"} />
         </div>
       </div>
     </>

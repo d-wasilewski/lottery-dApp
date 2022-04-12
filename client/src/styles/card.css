@@ -1,14 +1,15 @@
 .wrapper {
   /* background-image: linear-gradient(120deg, #ff42a3, #00c4ff); */
-  background-image: linear-gradient(60deg, #068bb3, #a16ba4);
-  /* margin-top: 1em; */
+  background-image: linear-gradient(60deg, #137cd1, #985d9b);
   margin-bottom: 4em;
-  width: 85%;
-  height: 30%;
+  width: 90%;
+  height: 38.5%;
   min-height: 300px;
   border-radius: 20px;
 }
 
 .header {
   color: rgb(7, 7, 28);
+  font-size: 1.75em;
+  margin-bottom: -3px;
 }
