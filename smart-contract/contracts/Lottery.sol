@@ -12,25 +12,17 @@ contract Lottery {
     constructor() {
         owner = msg.sender;
         lotteryId = 1;
-
-    }
-
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only owner can call this function");
-        _;
     }
 
     function enterLottery() public payable {
-        require(msg.value > 0.1 ether, "Not enough ether sent");
+        require(msg.value >= 0.1 ether, "Not enough ether sent");
         players.push(payable(msg.sender));
 
         emit NewPlayer(msg.sender, msg.value);
-        // TODO: check if already entered
     }
 
-    function pickWinner() public onlyOwner {
+    function pickWinner() public {
         uint randomNumber = getRandomNumber() % players.length;
-        require(randomNumber > 0, "Must use generated random number");
         players[randomNumber].transfer(address(this).balance);
 
         lotteryHistory[lotteryId] = players[randomNumber];

@@ -8,7 +8,7 @@ const PlayersList = () => {
 
   return (
     <div className="wrapper">
-      <h2>Players ({playersList.length})</h2>
+      <h2 className="header">Players ({playersList.length})</h2>
       {playersList &&
         playersList.map((player, index) => {
           if (index == 5) return "Click to see full list >";
